@@ -24,11 +24,17 @@ import {
   Zap
 } from 'lucide-react';
 import { examMeta, subjectsData, flatUnitsList, milestoneColumns, dateColumns } from '../data/examData';
+import AuthGateModal, { AuthStatusBadge } from './AuthGateModal';
+import { isEditorAuthenticated, logoutEditor } from '../utils/auth';
 
 const STORAGE_KEY = 'ayush_sem5_exam_matrix_v2';
 const LEGACY_STORAGE_KEY = 'ayush_sem5_exam_progress_v1';
 
 export default function ExamTracker({ onNavigateHome, onNavigateDaily }) {
+  // Auth State
+  const [isEditor, setIsEditor] = useState(() => isEditorAuthenticated());
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
   // 1. Persistent Matrix State
   const [matrixData, setMatrixData] = useState(() => {
     try {
@@ -96,8 +102,18 @@ export default function ExamTracker({ onNavigateHome, onNavigateDaily }) {
     return () => clearInterval(interval);
   }, []);
 
+  // Guard function for editing
+  const guardEdit = () => {
+    if (!isEditor) {
+      setShowAuthModal(true);
+      return false;
+    }
+    return true;
+  };
+
   // Toggles
   const toggleMilestone = (unitId, key) => {
+    if (!guardEdit()) return;
     setMatrixData((prev) => {
       const current = prev[unitId] || { complete: false, studied: false, rev1: false, rev2: false, dates: {} };
       const nextVal = !current[key];
@@ -119,6 +135,7 @@ export default function ExamTracker({ onNavigateHome, onNavigateDaily }) {
   };
 
   const toggleDate = (unitId, dateKey) => {
+    if (!guardEdit()) return;
     setMatrixData((prev) => {
       const current = prev[unitId] || { complete: false, studied: false, rev1: false, rev2: false, dates: {} };
       const currentDates = current.dates || {};
@@ -139,6 +156,7 @@ export default function ExamTracker({ onNavigateHome, onNavigateDaily }) {
 
   // Toggle all units in a subject for a given milestone
   const toggleSubjectMilestone = (subjectId, milestoneKey, setAllTo) => {
+    if (!guardEdit()) return;
     const subject = subjectsData.find((s) => s.id === subjectId);
     if (!subject) return;
 
@@ -157,6 +175,7 @@ export default function ExamTracker({ onNavigateHome, onNavigateDaily }) {
 
   // Reset all
   const resetAllProgress = () => {
+    if (!guardEdit()) return;
     setMatrixData({});
     setShowResetConfirm(false);
   };
@@ -256,6 +275,16 @@ export default function ExamTracker({ onNavigateHome, onNavigateDaily }) {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
+            <AuthStatusBadge
+              isEditor={isEditor}
+              onOpenLogin={() => setShowAuthModal(true)}
+              onLogout={() => {
+                logoutEditor();
+                setIsEditor(false);
+              }}
+              onChangePinClick={() => setShowAuthModal(true)}
+            />
+
             <button
               onClick={onNavigateDaily}
               className="inline-flex items-center gap-1.5 text-xs text-amber-400 font-mono font-medium px-2.5 py-1.5 rounded-md bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 transition-colors"
@@ -958,6 +987,12 @@ export default function ExamTracker({ onNavigateHome, onNavigateDaily }) {
           </div>
         </div>
       </main>
+
+      <AuthGateModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onAuthSuccess={() => setIsEditor(true)}
+      />
     </div>
   );
 }

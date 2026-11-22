@@ -27,6 +27,8 @@ import {
 } from 'lucide-react';
 import { examMeta, subjectsData, flatUnitsList } from '../data/examData';
 import { cheatsheetData } from '../data/cheatsheetData';
+import AuthGateModal, { AuthStatusBadge } from './AuthGateModal';
+import { isEditorAuthenticated, logoutEditor } from '../utils/auth';
 
 const CONFIDENCE_STORAGE_KEY = 'ayush_unit_confidence_v1';
 const TODAY_TARGET_KEY = 'ayush_today_targets_2311';
@@ -34,6 +36,18 @@ const SCRATCHPAD_KEY = 'ayush_daily_scratchpad_v1';
 const POMODORO_COUNT_KEY = 'ayush_pomodoro_count_v1';
 
 export default function DailyStudyHub({ onNavigateHome, onNavigateExam }) {
+  // Auth Gate
+  const [isEditor, setIsEditor] = useState(() => isEditorAuthenticated());
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
+  const guardEdit = () => {
+    if (!isEditor) {
+      setShowAuthModal(true);
+      return false;
+    }
+    return true;
+  };
+
   // 1. Pomodoro Timer State
   const [timerMode, setTimerMode] = useState(25); // 25 or 50 minutes
   const [secondsLeft, setSecondsLeft] = useState(25 * 60);
@@ -106,6 +120,7 @@ export default function DailyStudyHub({ onNavigateHome, onNavigateExam }) {
   });
 
   const toggleTargetDone = (unitId) => {
+    if (!guardEdit()) return;
     setTodayTargetsDone((prev) => {
       const next = { ...prev, [unitId]: !prev[unitId] };
       try {
@@ -116,12 +131,14 @@ export default function DailyStudyHub({ onNavigateHome, onNavigateExam }) {
   };
 
   const addTodayTarget = (unitId) => {
+    if (!guardEdit()) return;
     if (!todayTargets.includes(unitId)) {
       setTodayTargets([...todayTargets, unitId]);
     }
   };
 
   const removeTodayTarget = (unitId) => {
+    if (!guardEdit()) return;
     setTodayTargets(todayTargets.filter((id) => id !== unitId));
   };
 
@@ -136,6 +153,7 @@ export default function DailyStudyHub({ onNavigateHome, onNavigateExam }) {
   });
 
   const setRating = (unitId, rating) => {
+    if (!guardEdit()) return;
     setConfidenceRatings((prev) => {
       const next = { ...prev, [unitId]: prev[unitId] === rating ? null : rating };
       try {
@@ -155,6 +173,7 @@ export default function DailyStudyHub({ onNavigateHome, onNavigateExam }) {
   });
 
   const handleNotesChange = (e) => {
+    if (!guardEdit()) return;
     setNotes(e.target.value);
     try {
       localStorage.setItem(SCRATCHPAD_KEY, e.target.value);
@@ -215,6 +234,16 @@ export default function DailyStudyHub({ onNavigateHome, onNavigateExam }) {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
+            <AuthStatusBadge
+              isEditor={isEditor}
+              onOpenLogin={() => setShowAuthModal(true)}
+              onLogout={() => {
+                logoutEditor();
+                setIsEditor(false);
+              }}
+              onChangePinClick={() => setShowAuthModal(true)}
+            />
+
             <button
               onClick={onNavigateExam}
               className="inline-flex items-center gap-1.5 text-xs text-neutral-300 hover:text-white px-2.5 py-1.5 rounded-md bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 transition-colors"
@@ -656,6 +685,12 @@ export default function DailyStudyHub({ onNavigateHome, onNavigateExam }) {
           </div>
         </div>
       </main>
+
+      <AuthGateModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onAuthSuccess={() => setIsEditor(true)}
+      />
     </div>
   );
 }
