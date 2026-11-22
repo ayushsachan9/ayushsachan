@@ -1,12 +1,12 @@
 /**
- * Sem 5 Exam Checklist Data
+ * Sem 5 Exam Checklist Data - Updated with Daily Revision Matrix
  * Sourced directly from Google Sheets:
  * https://docs.google.com/spreadsheets/d/1CU7k947OSUN48a_vnTSlqZCUDrAgrfWbkDGSTD1dBoQ/edit?usp=sharing
  * Semester 5 Exams begin: 4 Dec 2026
  */
 
 export const examMeta = {
-  title: "Sem 5 Exam Checklist",
+  title: "Sem 5 Exam Checklist & Revision Tracker",
   examStartDate: "2026-12-04T09:00:00+05:30",
   sheetUrl: "https://docs.google.com/spreadsheets/d/1CU7k947OSUN48a_vnTSlqZCUDrAgrfWbkDGSTD1dBoQ/edit?usp=sharing",
   degree: "B.Tech Electronics & Communication Engineering (ECE)",
@@ -14,6 +14,26 @@ export const examMeta = {
   totalUnits: 30,
   totalSubjects: 6,
 };
+
+export const milestoneColumns = [
+  { key: 'complete', label: 'Complete / Revised', shortLabel: 'Done', color: 'emerald', bg: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' },
+  { key: 'studied', label: 'Studied (1st Pass)', shortLabel: 'Studied', color: 'blue', bg: 'bg-sky-500/10 text-sky-400 border-sky-500/30' },
+  { key: 'rev1', label: 'Revision 1 (Rev 1)', shortLabel: 'Rev 1', color: 'amber', bg: 'bg-amber-500/10 text-amber-400 border-amber-500/30' },
+  { key: 'rev2', label: 'Revision 2 (Rev 2)', shortLabel: 'Rev 2', color: 'purple', bg: 'bg-purple-500/10 text-purple-400 border-purple-500/30' },
+];
+
+export const dateColumns = [
+  { key: '23/11', label: '23 Nov', isToday: true },
+  { key: '24/11', label: '24 Nov', isToday: false },
+  { key: '25/11', label: '25 Nov', isToday: false },
+  { key: '26/11', label: '26 Nov', isToday: false },
+  { key: '27/11', label: '27 Nov', isToday: false },
+  { key: '28/11', label: '28 Nov', isToday: false },
+  { key: '29/11', label: '29 Nov', isToday: false },
+  { key: '30/11', label: '30 Nov', isToday: false },
+  { key: '1/11', label: '1 Dec', raw: '1/11', isToday: false },
+  { key: '2/11', label: '2 Dec', raw: '2/11', isToday: false },
+];
 
 export const subjectsData = [
   {
