@@ -20,14 +20,15 @@ import {
   TrendingUp,
   Layers,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Zap
 } from 'lucide-react';
 import { examMeta, subjectsData, flatUnitsList, milestoneColumns, dateColumns } from '../data/examData';
 
 const STORAGE_KEY = 'ayush_sem5_exam_matrix_v2';
 const LEGACY_STORAGE_KEY = 'ayush_sem5_exam_progress_v1';
 
-export default function ExamTracker({ onNavigateHome }) {
+export default function ExamTracker({ onNavigateHome, onNavigateDaily }) {
   // 1. Persistent Matrix State
   const [matrixData, setMatrixData] = useState(() => {
     try {
@@ -255,6 +256,16 @@ export default function ExamTracker({ onNavigateHome }) {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
+            <button
+              onClick={onNavigateDaily}
+              className="inline-flex items-center gap-1.5 text-xs text-amber-400 font-mono font-medium px-2.5 py-1.5 rounded-md bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 transition-colors"
+              title="Open Daily Study & Pomodoro Hub"
+            >
+              <Zap className="w-3.5 h-3.5 text-amber-400" />
+              <span className="hidden sm:inline">Daily Hub (/daily)</span>
+              <span className="sm:hidden">Daily</span>
+            </button>
+
             <button
               onClick={copySummary}
               className="inline-flex items-center gap-1.5 text-xs text-neutral-300 hover:text-white px-2.5 py-1.5 rounded-md bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 transition-colors"

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, ArrowUpRight, CheckSquare } from 'lucide-react';
+import { Menu, X, ArrowUpRight, CheckSquare, Zap } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
 
 export default function Navbar({ onNavigate }) {
@@ -24,6 +24,16 @@ export default function Navbar({ onNavigate }) {
     }
   };
 
+  const handleDailyClick = (e) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    if (onNavigate) {
+      onNavigate('/daily');
+    } else {
+      window.location.href = '/daily';
+    }
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-40 bg-[#0a0a0a]/90 backdrop-blur-md border-b border-neutral-800">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
@@ -40,7 +50,7 @@ export default function Navbar({ onNavigate }) {
           </a>
 
           {/* Desktop Links */}
-          <div className="hidden md:flex items-center gap-5 text-sm text-neutral-400">
+          <div className="hidden md:flex items-center gap-4 text-sm text-neutral-400">
             {links.map((link, idx) => (
               <a
                 key={idx}
@@ -58,7 +68,17 @@ export default function Navbar({ onNavigate }) {
               title="Sem 5 Exam Checklist"
             >
               <CheckSquare className="w-3.5 h-3.5" />
-              <span>Sem 5 Exam</span>
+              <span>Exam</span>
+            </a>
+
+            <a
+              href="/daily"
+              onClick={handleDailyClick}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20 hover:bg-amber-500/20 transition-colors"
+              title="Daily Study Hub & Pomodoro"
+            >
+              <Zap className="w-3.5 h-3.5" />
+              <span>Daily</span>
             </a>
 
             <a
@@ -73,12 +93,12 @@ export default function Navbar({ onNavigate }) {
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center gap-2">
             <a
-              href="/exam"
-              onClick={handleExamClick}
-              className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-mono font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+              href="/daily"
+              onClick={handleDailyClick}
+              className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-mono font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20"
             >
-              <CheckSquare className="w-3 h-3" />
-              <span>Exam</span>
+              <Zap className="w-3 h-3" />
+              <span>Daily</span>
             </a>
 
             <button
@@ -113,7 +133,16 @@ export default function Navbar({ onNavigate }) {
             className="flex items-center gap-2 text-sm text-emerald-400 font-medium py-1"
           >
             <CheckSquare className="w-4 h-4" />
-            <span>Sem 5 Exam Checklist</span>
+            <span>Sem 5 Exam Matrix (/exam)</span>
+          </a>
+
+          <a
+            href="/daily"
+            onClick={handleDailyClick}
+            className="flex items-center gap-2 text-sm text-amber-400 font-medium py-1"
+          >
+            <Zap className="w-4 h-4" />
+            <span>Daily Study & Pomodoro Hub (/daily)</span>
           </a>
 
           <a

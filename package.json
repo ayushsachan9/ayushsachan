@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node -e \"const fs=require('fs'),path=require('path');const d=path.join('dist','exam');if(!fs.existsSync(d))fs.mkdirSync(d,{recursive:true});fs.copyFileSync(path.join('dist','index.html'),path.join(d,'index.html'));\"",
+    "build": "vite build && node -e \"const fs=require('fs'),path=require('path');['exam','daily'].forEach(dir=>{const d=path.join('dist',dir);if(!fs.existsSync(d))fs.mkdirSync(d,{recursive:true});fs.copyFileSync(path.join('dist','index.html'),path.join(d,'index.html'));});\"",
     "preview": "vite preview",
     "deploy": "node scripts/deploy.cjs"
   },

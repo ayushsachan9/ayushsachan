@@ -9,6 +9,7 @@ import Education from './components/Education';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import ExamTracker from './components/ExamTracker';
+import DailyStudyHub from './components/DailyStudyHub';
 
 export default function App() {
   const [currentPath, setCurrentPath] = useState(() => {
@@ -30,10 +31,26 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const isExamPage = currentPath.replace(/\/$/, '') === '/exam';
+  const normalizedPath = currentPath.replace(/\/$/, '');
+  const isExamPage = normalizedPath === '/exam';
+  const isDailyPage = normalizedPath === '/daily';
 
   if (isExamPage) {
-    return <ExamTracker onNavigateHome={() => navigate('/')} />;
+    return (
+      <ExamTracker
+        onNavigateHome={() => navigate('/')}
+        onNavigateDaily={() => navigate('/daily')}
+      />
+    );
+  }
+
+  if (isDailyPage) {
+    return (
+      <DailyStudyHub
+        onNavigateHome={() => navigate('/')}
+        onNavigateExam={() => navigate('/exam')}
+      />
+    );
   }
 
   return (

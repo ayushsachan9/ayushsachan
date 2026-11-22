@@ -1,6 +1,6 @@
 import React from 'react';
 import { personalInfo } from '../data/portfolioData';
-import { CheckSquare } from 'lucide-react';
+import { CheckSquare, Zap } from 'lucide-react';
 
 export default function Footer({ onNavigate }) {
   const handleExamClick = (e) => {
@@ -9,6 +9,15 @@ export default function Footer({ onNavigate }) {
       onNavigate('/exam');
     } else {
       window.location.href = '/exam';
+    }
+  };
+
+  const handleDailyClick = (e) => {
+    e.preventDefault();
+    if (onNavigate) {
+      onNavigate('/daily');
+    } else {
+      window.location.href = '/daily';
     }
   };
 
@@ -28,7 +37,16 @@ export default function Footer({ onNavigate }) {
             className="inline-flex items-center gap-1.5 text-neutral-400 hover:text-emerald-400 transition-colors"
           >
             <CheckSquare className="w-3.5 h-3.5" />
-            <span>Sem 5 Exam Checklist</span>
+            <span>Exam Matrix</span>
+          </a>
+          <span className="text-neutral-700">•</span>
+          <a
+            href="/daily"
+            onClick={handleDailyClick}
+            className="inline-flex items-center gap-1.5 text-neutral-400 hover:text-amber-400 transition-colors"
+          >
+            <Zap className="w-3.5 h-3.5" />
+            <span>Daily Hub</span>
           </a>
           <span className="text-neutral-700">•</span>
           <span>© {new Date().getFullYear()} Ayush Sachan</span>
