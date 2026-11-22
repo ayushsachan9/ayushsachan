@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { Menu, X, ArrowUpRight, CheckSquare } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
 
-export default function Navbar() {
+export default function Navbar({ onNavigate }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const links = [
@@ -13,6 +13,16 @@ export default function Navbar() {
     { label: 'Education', href: '#education' },
     { label: 'Contact', href: '#contact' },
   ];
+
+  const handleExamClick = (e) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    if (onNavigate) {
+      onNavigate('/exam');
+    } else {
+      window.location.href = '/exam';
+    }
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-40 bg-[#0a0a0a]/90 backdrop-blur-md border-b border-neutral-800">
@@ -30,7 +40,7 @@ export default function Navbar() {
           </a>
 
           {/* Desktop Links */}
-          <div className="hidden md:flex items-center gap-6 text-sm text-neutral-400">
+          <div className="hidden md:flex items-center gap-5 text-sm text-neutral-400">
             {links.map((link, idx) => (
               <a
                 key={idx}
@@ -42,8 +52,18 @@ export default function Navbar() {
             ))}
 
             <a
+              href="/exam"
+              onClick={handleExamClick}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-colors"
+              title="Sem 5 Exam Checklist"
+            >
+              <CheckSquare className="w-3.5 h-3.5" />
+              <span>Sem 5 Exam</span>
+            </a>
+
+            <a
               href={personalInfo.resumeUrl}
-              className="inline-flex items-center gap-1 text-white hover:text-neutral-300 font-medium pl-2"
+              className="inline-flex items-center gap-1 text-white hover:text-neutral-300 font-medium pl-1"
             >
               <span>Resume</span>
               <ArrowUpRight className="w-3.5 h-3.5 text-neutral-400" />
@@ -51,7 +71,16 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center gap-2">
+            <a
+              href="/exam"
+              onClick={handleExamClick}
+              className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-mono font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+            >
+              <CheckSquare className="w-3 h-3" />
+              <span>Exam</span>
+            </a>
+
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-1.5 text-neutral-400 hover:text-white"
@@ -77,6 +106,16 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
+
+          <a
+            href="/exam"
+            onClick={handleExamClick}
+            className="flex items-center gap-2 text-sm text-emerald-400 font-medium py-1"
+          >
+            <CheckSquare className="w-4 h-4" />
+            <span>Sem 5 Exam Checklist</span>
+          </a>
+
           <a
             href={personalInfo.resumeUrl}
             onClick={() => setMobileMenuOpen(false)}

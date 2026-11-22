@@ -1,0 +1,182 @@
+[
+  {
+    "subject": "BEC501 Integrated Circuits",
+    "unit": "Unit 1",
+    "topics": "The 741 IC Op-Amp: stages, DC/AC analysis, frequency response, slew rate",
+    "done": false
+  },
+  {
+    "subject": "BEC501 Integrated Circuits",
+    "unit": "Unit 2",
+    "topics": "Linear applications: V-I/I-V converters, instrumentation amp, GIC, active filters (Sallen Key, Butterworth, KHN)",
+    "done": false
+  },
+  {
+    "subject": "BEC501 Integrated Circuits",
+    "unit": "Unit 3",
+    "topics": "Frequency compensation & nonlinearity; non-linear applications (log/antilog, peak detector, S/H, comparator, multivibrators, multipliers)",
+    "done": false
+  },
+  {
+    "subject": "BEC501 Integrated Circuits",
+    "unit": "Unit 4",
+    "topics": "Digital IC design: CMOS gates, latches, SR/JK/D flip-flops",
+    "done": false
+  },
+  {
+    "subject": "BEC501 Integrated Circuits",
+    "unit": "Unit 5",
+    "topics": "555 timer, VCO 566, PLL",
+    "done": false
+  },
+  {
+    "subject": "BEC502 Microprocessor & Microcontroller",
+    "unit": "Unit 1",
+    "topics": "8085 architecture, pins, timing diagrams, memory & I/O interfacing",
+    "done": false
+  },
+  {
+    "subject": "BEC502 Microprocessor & Microcontroller",
+    "unit": "Unit 2",
+    "topics": "8085 programming, looping/counting, delays, interrupts",
+    "done": false
+  },
+  {
+    "subject": "BEC502 Microprocessor & Microcontroller",
+    "unit": "Unit 3",
+    "topics": "8086 architecture, segmentation, addressing modes; 8237, 8255, 8253/54, 8259, 8251",
+    "done": false
+  },
+  {
+    "subject": "BEC502 Microprocessor & Microcontroller",
+    "unit": "Unit 4",
+    "topics": "8051 basics: block diagram, PSW, registers, memory, SFRs, pins, addressing modes",
+    "done": false
+  },
+  {
+    "subject": "BEC502 Microprocessor & Microcontroller",
+    "unit": "Unit 5",
+    "topics": "8051 assembly: instructions, timers, serial, interrupts, LCD/keyboard/ADC/DAC/stepper interfacing",
+    "done": false
+  },
+  {
+    "subject": "BEC503 Digital Signal Processing",
+    "unit": "Unit 1",
+    "topics": "DSP intro, realization structures, IIR & FIR realization",
+    "done": false
+  },
+  {
+    "subject": "BEC503 Digital Signal Processing",
+    "unit": "Unit 2",
+    "topics": "IIR design: impulse invariant, bilinear, Butterworth & Chebyshev",
+    "done": false
+  },
+  {
+    "subject": "BEC503 Digital Signal Processing",
+    "unit": "Unit 3",
+    "topics": "FIR design: windows, Gibbs phenomenon, finite word length effects",
+    "done": false
+  },
+  {
+    "subject": "BEC503 Digital Signal Processing",
+    "unit": "Unit 4",
+    "topics": "DFT & FFT: properties, circular/linear convolution, DIT, DIF",
+    "done": false
+  },
+  {
+    "subject": "BEC503 Digital Signal Processing",
+    "unit": "Unit 5",
+    "topics": "Multirate DSP: decimation, interpolation, sampling rate conversion, QMF",
+    "done": false
+  },
+  {
+    "subject": "BEC054 VLSI Technology",
+    "unit": "Unit 1",
+    "topics": "IC technology intro, crystal growth (Czochralski), wafer prep & cleaning",
+    "done": false
+  },
+  {
+    "subject": "BEC054 VLSI Technology",
+    "unit": "Unit 2",
+    "topics": "Epitaxy, SOI, oxidation",
+    "done": false
+  },
+  {
+    "subject": "BEC054 VLSI Technology",
+    "unit": "Unit 3",
+    "topics": "Lithography, etching, polysilicon/SiO2/Si3N4 deposition",
+    "done": false
+  },
+  {
+    "subject": "BEC054 VLSI Technology",
+    "unit": "Unit 4",
+    "topics": "Diffusion (Fick's law, profiles), ion implantation",
+    "done": false
+  },
+  {
+    "subject": "BEC054 VLSI Technology",
+    "unit": "Unit 5",
+    "topics": "Metallization, PVD, sputtering, packaging, CMOS fabrication steps",
+    "done": false
+  },
+  {
+    "subject": "BEC057 Optical Communication",
+    "unit": "Unit 1",
+    "topics": "Intro, fiber waveguides: ray theory, NA, modes, step vs graded index, single mode fibers",
+    "done": false
+  },
+  {
+    "subject": "BEC057 Optical Communication",
+    "unit": "Unit 2",
+    "topics": "Signal loss (absorption, scattering, bending) and dispersion",
+    "done": false
+  },
+  {
+    "subject": "BEC057 Optical Communication",
+    "unit": "Unit 3",
+    "topics": "Optical sources: LEDs, laser diodes, rate equations",
+    "done": false
+  },
+  {
+    "subject": "BEC057 Optical Communication",
+    "unit": "Unit 4",
+    "topics": "Power launching & coupling; photodetectors (PIN, APD), noise, SNR",
+    "done": false
+  },
+  {
+    "subject": "BEC057 Optical Communication",
+    "unit": "Unit 5",
+    "topics": "Digital receiver: BER, sensitivity, eye diagram, coherent detection, links, multiplexing, FSO",
+    "done": false
+  },
+  {
+    "subject": "BNC502 Essence of Indian Traditional Knowledge",
+    "unit": "Unit 1",
+    "topics": "Society, state and polity in ancient India",
+    "done": false
+  },
+  {
+    "subject": "BNC502 Essence of Indian Traditional Knowledge",
+    "unit": "Unit 2",
+    "topics": "Indian literature, culture, scripts and languages",
+    "done": false
+  },
+  {
+    "subject": "BNC502 Essence of Indian Traditional Knowledge",
+    "unit": "Unit 3",
+    "topics": "Indian religion, philosophy, Bhakti & Sufi movements",
+    "done": false
+  },
+  {
+    "subject": "BNC502 Essence of Indian Traditional Knowledge",
+    "unit": "Unit 4",
+    "topics": "Science, management and Indian knowledge systems",
+    "done": false
+  },
+  {
+    "subject": "BNC502 Essence of Indian Traditional Knowledge",
+    "unit": "Unit 5",
+    "topics": "Cultural heritage and performing arts",
+    "done": false
+  }
+]
