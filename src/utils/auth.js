@@ -1,66 +1,67 @@
 /**
- * Admin Authentication & Edit Mode Gate for Ayush Sachan
- * Protects /exam and /daily from unauthorized edits.
- * Default passcode: ayush2026 (stored as SHA-256 hash)
+ * Email-Based Authentication & Access Control for Ayush Sachan
+ * Restricts editing on /exam and /daily exclusively to authorized emails.
  */
 
-// SHA-256 hash of default passcode "ayush2026"
-const DEFAULT_PIN_HASH = '238f7a56ddddc237225a1c60ee2726b981c9707344546e051af7c01cc6e7a76d';
-const AUTH_KEY = 'ayush_admin_authenticated_v1';
-const CUSTOM_PIN_HASH_KEY = 'ayush_admin_custom_pin_hash';
+export const AUTHORIZED_EMAILS = [
+  'ayushsachanx369@gmail.com',
+  'ayushsachan279@gmail.com'
+];
 
-export async function sha256(text) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(text);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+const EDITOR_EMAIL_KEY = 'ayush_editor_authorized_email';
+
+/**
+ * Check if the current user is signed in with an authorized email
+ */
+export function getAuthorizedEmail() {
+  try {
+    const email = localStorage.getItem(EDITOR_EMAIL_KEY);
+    if (!email) return null;
+    const clean = email.trim().toLowerCase();
+    return AUTHORIZED_EMAILS.includes(clean) ? clean : null;
+  } catch {
+    return null;
+  }
 }
 
 export function isEditorAuthenticated() {
-  try {
-    return localStorage.getItem(AUTH_KEY) === 'true';
-  } catch {
-    return false;
-  }
+  return !!getAuthorizedEmail();
 }
 
-export async function loginWithPasscode(passcode) {
+/**
+ * Authenticate with email
+ */
+export function loginWithEmail(email) {
   try {
-    const inputHash = await sha256(passcode.trim());
-    const savedCustomHash = localStorage.getItem(CUSTOM_PIN_HASH_KEY);
-    const expectedHash = savedCustomHash || DEFAULT_PIN_HASH;
-
-    if (inputHash === expectedHash) {
-      localStorage.setItem(AUTH_KEY, 'true');
-      return { success: true };
+    if (!email) {
+      return { success: false, error: 'Please enter an email address.' };
     }
-    return { success: false, error: 'Incorrect passcode. Access denied.' };
+
+    const clean = email.trim().toLowerCase();
+
+    if (AUTHORIZED_EMAILS.includes(clean)) {
+      localStorage.setItem(EDITOR_EMAIL_KEY, clean);
+      // Clean up legacy password keys if any
+      localStorage.removeItem('ayush_admin_authenticated_v1');
+      localStorage.removeItem('ayush_admin_custom_pin_hash');
+      return { success: true, email: clean };
+    }
+
+    return {
+      success: false,
+      error: `Access denied for "${clean}". Editing is strictly restricted to Ayush's authorized emails (ayushsachanx369@gmail.com or ayushsachan279@gmail.com).`
+    };
   } catch (err) {
     return { success: false, error: err.message };
   }
 }
 
+/**
+ * Sign out of editor mode
+ */
 export function logoutEditor() {
   try {
-    localStorage.removeItem(AUTH_KEY);
+    localStorage.removeItem(EDITOR_EMAIL_KEY);
+    localStorage.removeItem('ayush_admin_authenticated_v1');
   } catch {}
-}
-
-export async function updatePasscode(oldPasscode, newPasscode) {
-  try {
-    const check = await loginWithPasscode(oldPasscode);
-    if (!check.success) {
-      return { success: false, error: 'Current passcode is incorrect.' };
-    }
-    if (!newPasscode || newPasscode.trim().length < 4) {
-      return { success: false, error: 'New passcode must be at least 4 characters long.' };
-    }
-    const newHash = await sha256(newPasscode.trim());
-    localStorage.setItem(CUSTOM_PIN_HASH_KEY, newHash);
-    localStorage.setItem(AUTH_KEY, 'true');
-    return { success: true };
-  } catch (err) {
-    return { success: false, error: err.message };
-  }
 }

@@ -25,14 +25,15 @@ import {
 } from 'lucide-react';
 import { examMeta, subjectsData, flatUnitsList, milestoneColumns, dateColumns } from '../data/examData';
 import AuthGateModal, { AuthStatusBadge } from './AuthGateModal';
-import { isEditorAuthenticated, logoutEditor } from '../utils/auth';
+import { getAuthorizedEmail, logoutEditor } from '../utils/auth';
 
 const STORAGE_KEY = 'ayush_sem5_exam_matrix_v2';
 const LEGACY_STORAGE_KEY = 'ayush_sem5_exam_progress_v1';
 
 export default function ExamTracker({ onNavigateHome, onNavigateDaily }) {
   // Auth State
-  const [isEditor, setIsEditor] = useState(() => isEditorAuthenticated());
+  const [userEmail, setUserEmail] = useState(() => getAuthorizedEmail());
+  const isEditor = !!userEmail;
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   // 1. Persistent Matrix State
@@ -276,13 +277,12 @@ export default function ExamTracker({ onNavigateHome, onNavigateDaily }) {
 
           <div className="flex items-center gap-2 sm:gap-3">
             <AuthStatusBadge
-              isEditor={isEditor}
+              userEmail={userEmail}
               onOpenLogin={() => setShowAuthModal(true)}
               onLogout={() => {
                 logoutEditor();
-                setIsEditor(false);
+                setUserEmail(null);
               }}
-              onChangePinClick={() => setShowAuthModal(true)}
             />
 
             <button
@@ -991,7 +991,7 @@ export default function ExamTracker({ onNavigateHome, onNavigateDaily }) {
       <AuthGateModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
-        onAuthSuccess={() => setIsEditor(true)}
+        onAuthSuccess={(email) => setUserEmail(email)}
       />
     </div>
   );

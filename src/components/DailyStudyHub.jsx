@@ -28,7 +28,7 @@ import {
 import { examMeta, subjectsData, flatUnitsList } from '../data/examData';
 import { cheatsheetData } from '../data/cheatsheetData';
 import AuthGateModal, { AuthStatusBadge } from './AuthGateModal';
-import { isEditorAuthenticated, logoutEditor } from '../utils/auth';
+import { getAuthorizedEmail, logoutEditor } from '../utils/auth';
 
 const CONFIDENCE_STORAGE_KEY = 'ayush_unit_confidence_v1';
 const TODAY_TARGET_KEY = 'ayush_today_targets_2311';
@@ -37,7 +37,8 @@ const POMODORO_COUNT_KEY = 'ayush_pomodoro_count_v1';
 
 export default function DailyStudyHub({ onNavigateHome, onNavigateExam }) {
   // Auth Gate
-  const [isEditor, setIsEditor] = useState(() => isEditorAuthenticated());
+  const [userEmail, setUserEmail] = useState(() => getAuthorizedEmail());
+  const isEditor = !!userEmail;
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   const guardEdit = () => {
@@ -235,13 +236,12 @@ export default function DailyStudyHub({ onNavigateHome, onNavigateExam }) {
 
           <div className="flex items-center gap-2 sm:gap-3">
             <AuthStatusBadge
-              isEditor={isEditor}
+              userEmail={userEmail}
               onOpenLogin={() => setShowAuthModal(true)}
               onLogout={() => {
                 logoutEditor();
-                setIsEditor(false);
+                setUserEmail(null);
               }}
-              onChangePinClick={() => setShowAuthModal(true)}
             />
 
             <button
@@ -689,7 +689,7 @@ export default function DailyStudyHub({ onNavigateHome, onNavigateExam }) {
       <AuthGateModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
-        onAuthSuccess={() => setIsEditor(true)}
+        onAuthSuccess={(email) => setUserEmail(email)}
       />
     </div>
   );
