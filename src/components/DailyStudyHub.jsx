@@ -28,7 +28,7 @@ import {
 import { examMeta, subjectsData, flatUnitsList } from '../data/examData';
 import { cheatsheetData } from '../data/cheatsheetData';
 import AuthGateModal, { AuthStatusBadge } from './AuthGateModal';
-import { getAuthorizedEmail, logoutEditor } from '../utils/auth';
+import { isEditorAuthenticated, logoutEditor } from '../utils/auth';
 
 const CONFIDENCE_STORAGE_KEY = 'ayush_unit_confidence_v1';
 const TODAY_TARGET_KEY = 'ayush_today_targets_2311';
@@ -37,8 +37,7 @@ const POMODORO_COUNT_KEY = 'ayush_pomodoro_count_v1';
 
 export default function DailyStudyHub({ onNavigateHome, onNavigateExam }) {
   // Auth Gate
-  const [userEmail, setUserEmail] = useState(() => getAuthorizedEmail());
-  const isEditor = !!userEmail;
+  const [isEditor, setIsEditor] = useState(() => isEditorAuthenticated());
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   const guardEdit = () => {
@@ -236,11 +235,11 @@ export default function DailyStudyHub({ onNavigateHome, onNavigateExam }) {
 
           <div className="flex items-center gap-2 sm:gap-3">
             <AuthStatusBadge
-              userEmail={userEmail}
+              isEditor={isEditor}
               onOpenLogin={() => setShowAuthModal(true)}
               onLogout={() => {
                 logoutEditor();
-                setUserEmail(null);
+                setIsEditor(false);
               }}
             />
 
@@ -689,7 +688,7 @@ export default function DailyStudyHub({ onNavigateHome, onNavigateExam }) {
       <AuthGateModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
-        onAuthSuccess={(email) => setUserEmail(email)}
+        onAuthSuccess={() => setIsEditor(true)}
       />
     </div>
   );

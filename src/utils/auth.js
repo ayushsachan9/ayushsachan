@@ -1,67 +1,34 @@
 /**
- * Email-Based Authentication & Access Control for Ayush Sachan
- * Restricts editing on /exam and /daily exclusively to authorized emails.
+ * Password Gate for /exam and /daily
+ * Password: 108
  */
 
-export const AUTHORIZED_EMAILS = [
-  'ayushsachanx369@gmail.com',
-  'ayushsachan279@gmail.com'
-];
-
-const EDITOR_EMAIL_KEY = 'ayush_editor_authorized_email';
-
-/**
- * Check if the current user is signed in with an authorized email
- */
-export function getAuthorizedEmail() {
-  try {
-    const email = localStorage.getItem(EDITOR_EMAIL_KEY);
-    if (!email) return null;
-    const clean = email.trim().toLowerCase();
-    return AUTHORIZED_EMAILS.includes(clean) ? clean : null;
-  } catch {
-    return null;
-  }
-}
+const AUTH_KEY = 'ayush_editor_unlocked_108';
+const SECRET_PASS = '108';
 
 export function isEditorAuthenticated() {
-  return !!getAuthorizedEmail();
-}
-
-/**
- * Authenticate with email
- */
-export function loginWithEmail(email) {
   try {
-    if (!email) {
-      return { success: false, error: 'Please enter an email address.' };
-    }
-
-    const clean = email.trim().toLowerCase();
-
-    if (AUTHORIZED_EMAILS.includes(clean)) {
-      localStorage.setItem(EDITOR_EMAIL_KEY, clean);
-      // Clean up legacy password keys if any
-      localStorage.removeItem('ayush_admin_authenticated_v1');
-      localStorage.removeItem('ayush_admin_custom_pin_hash');
-      return { success: true, email: clean };
-    }
-
-    return {
-      success: false,
-      error: `Access denied for "${clean}". Editing is strictly restricted to Ayush's authorized emails (ayushsachanx369@gmail.com or ayushsachan279@gmail.com).`
-    };
-  } catch (err) {
-    return { success: false, error: err.message };
+    return localStorage.getItem(AUTH_KEY) === 'true';
+  } catch {
+    return false;
   }
 }
 
-/**
- * Sign out of editor mode
- */
+export function loginWithPassword(pass) {
+  if (pass && pass.trim() === SECRET_PASS) {
+    try {
+      localStorage.setItem(AUTH_KEY, 'true');
+    } catch {}
+    return { success: true };
+  }
+  return { success: false, error: 'Incorrect password. Access denied.' };
+}
+
 export function logoutEditor() {
   try {
-    localStorage.removeItem(EDITOR_EMAIL_KEY);
+    localStorage.removeItem(AUTH_KEY);
+    // clean up legacy keys
+    localStorage.removeItem('ayush_editor_authorized_email');
     localStorage.removeItem('ayush_admin_authenticated_v1');
   } catch {}
 }
